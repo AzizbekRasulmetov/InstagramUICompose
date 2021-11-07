@@ -29,6 +29,8 @@ class MainActivity : ComponentActivity() {
                 Surface(color = MaterialTheme.colors.background) {
                     ProfileScreen()
                 }
+
+                println("This is added to the second commit")
             }
         }
     }
