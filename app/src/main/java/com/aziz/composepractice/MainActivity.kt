@@ -31,7 +31,7 @@ class MainActivity : ComponentActivity() {
                 }
 
                 println("This is added to the second commit")
-                today is a good day fucked up
+                asdadasdawdfsadas dFucked up again
             }
         }
     }
