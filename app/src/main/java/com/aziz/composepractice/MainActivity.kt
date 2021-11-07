@@ -31,12 +31,8 @@ class MainActivity : ComponentActivity() {
                 }
 
                 println("This is added to the second commit")
-<<<<<<< Updated upstream
-                asdadasdawdfsadas dFucked up again
-=======
-                today is a good day fucked up
-                Just added to check if saved or not
->>>>>>> Stashed changes
+                println("My Stash saveed")
+                println("Inside Experimental")
             }
         }
     }
