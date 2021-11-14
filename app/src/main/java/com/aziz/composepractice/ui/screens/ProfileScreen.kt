@@ -1,13 +1,8 @@
 package com.aziz.composepractice.ui
 
-import android.widget.Space
-import android.widget.Toast
-import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.border
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.GridCells
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.LazyVerticalGrid
 import androidx.compose.foundation.shape.CircleShape
@@ -18,13 +13,8 @@ import androidx.compose.material.TabRow
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.KeyboardArrowDown
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -33,7 +23,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -43,95 +32,108 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import com.aziz.composepractice.R
 import com.aziz.composepractice.data.StoryHighlights
-import kotlinx.coroutines.selects.select
+import com.aziz.composepractice.ui.common.POST_VIEW_ROUTE
 
 @ExperimentalFoundationApi
-@Preview(
-    name = "instagram",
-    group = "instagram",
-    showSystemUi = true,
-    showBackground = true
-)
+//@Preview(
+//    name = "instagram",
+//    group = "instagram",
+//    showSystemUi = true,
+//    showBackground = true
+//)
 @Composable
-fun ProfileScreen() {
+fun ProfileScreen(navController: NavController) {
     var selectedTabIndex by remember {
         mutableStateOf(0)
     }
+    var scrollState = rememberScrollState()
     Column(modifier = Modifier.fillMaxWidth()) {
+
         TopBar(name = "rasulmetov_a", modifier = Modifier.padding(10.dp))
         Spacer(modifier = Modifier.padding(3.dp))
-        ProfileSection()
-        Spacer(modifier = Modifier.height(20.dp))
-        ButtonSection(modifier = Modifier.fillMaxWidth())
-        Spacer(modifier = Modifier.height(20.dp))
-        HighlightSection(
+
+        Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 20.dp),
-            highlights = listOf(
-                StoryHighlights(
-                    image = painterResource(id = R.drawable.youtube),
-                    text = "YouTube"
-                ),
-                StoryHighlights(
-                    image = painterResource(id = R.drawable.qa),
-                    text = "Q&A"
-                ),
-                StoryHighlights(
-                    image = painterResource(id = R.drawable.discord),
-                    text = "Discord"
-                ),
-                StoryHighlights(
-                    image = painterResource(id = R.drawable.telegram),
-                    text = "Telegram"
-                ),
-                StoryHighlights(
-                    image = painterResource(id = R.drawable.youtube),
-                    text = "YouTube"
-                ),
-            )
-        )
-        Spacer(modifier = Modifier.height(20.dp))
-        PostTabView(
-            imageWithText = listOf(
-                StoryHighlights(
-                    image = painterResource(id = R.drawable.ic_grid),
-                    text = "Text"
-                ),
-                StoryHighlights(
-                    image = painterResource(id = R.drawable.ic_igtv),
-                    text = "Text"
-                ),
-                StoryHighlights(
-                    image = painterResource(id = R.drawable.ic_reels),
-                    text = "Text"
-                ),
-                StoryHighlights(
-                    image = painterResource(id = R.drawable.ic_igtv),
-                    text = "Text"
-                )
-            ),
-            onTabSelected = { index ->
-                selectedTabIndex = index
-            },
-        )
-        when(selectedTabIndex){
-            0 -> {
-                PostSection(
-                    posts = listOf(
-                        painterResource(id =  R.drawable.kmm),
-                        painterResource(id =  R.drawable.intermediate_dev),
-                        painterResource(id =  R.drawable.master_logical_thinking),
-                        painterResource(id =  R.drawable.bad_habits),
-                        painterResource(id =  R.drawable.multiple_languages),
-                        painterResource(id =  R.drawable.learn_coding_fast)
+        ) {
+            ProfileSection()
+            Spacer(modifier = Modifier.height(10.dp))
+            ButtonSection(modifier = Modifier.fillMaxWidth())
+            Spacer(modifier = Modifier.height(10.dp))
+            HighlightSection(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 20.dp),
+                highlights = listOf(
+                    StoryHighlights(
+                        image = painterResource(id = R.drawable.youtube),
+                        text = "YouTube"
                     ),
-                    modifier = Modifier.fillMaxWidth())
+                    StoryHighlights(
+                        image = painterResource(id = R.drawable.qa),
+                        text = "Q&A"
+                    ),
+                    StoryHighlights(
+                        image = painterResource(id = R.drawable.discord),
+                        text = "Discord"
+                    ),
+                    StoryHighlights(
+                        image = painterResource(id = R.drawable.telegram),
+                        text = "Telegram"
+                    ),
+                    StoryHighlights(
+                        image = painterResource(id = R.drawable.youtube),
+                        text = "YouTube"
+                    ),
+                )
+            )
+            Spacer(modifier = Modifier.height(20.dp))
+            PostTabView(
+                imageWithText = listOf(
+                    StoryHighlights(
+                        image = painterResource(id = R.drawable.ic_grid),
+                        text = "Text"
+                    ),
+                    StoryHighlights(
+                        image = painterResource(id = R.drawable.ic_igtv),
+                        text = "Text"
+                    ),
+                    StoryHighlights(
+                        image = painterResource(id = R.drawable.ic_reels),
+                        text = "Text"
+                    ),
+                    StoryHighlights(
+                        image = painterResource(id = R.drawable.ic_igtv),
+                        text = "Text"
+                    )
+                ),
+                onTabSelected = { index ->
+                    selectedTabIndex = index
+                },
+            )
+            when (selectedTabIndex) {
+                0 -> {
+                    PostSection(
+                        posts = listOf(
+                            painterResource(id = R.drawable.kmm),
+                            painterResource(id = R.drawable.intermediate_dev),
+                            painterResource(id = R.drawable.master_logical_thinking),
+                            painterResource(id = R.drawable.bad_habits),
+                            painterResource(id = R.drawable.multiple_languages),
+                            painterResource(id = R.drawable.learn_coding_fast)
+                        ),
+                        modifier = Modifier.fillMaxWidth(),
+                        navController = navController
+                    )
+                }
             }
         }
     }
+
 }
 
 @Composable
@@ -301,11 +303,11 @@ fun PostTabView(
                     selectedTabIndex = index
                     onTabSelected(selectedTabIndex)
                 }
-            ){
+            ) {
                 Icon(
                     painter = storyHighlights.image,
                     contentDescription = storyHighlights.text,
-                    tint = if(selectedTabIndex == index) Color.Black else inactiveColor,
+                    tint = if (selectedTabIndex == index) Color.Black else inactiveColor,
                     modifier = Modifier
                         .padding(10.dp)
                         .size(20.dp)
@@ -319,26 +321,31 @@ fun PostTabView(
 @Composable
 fun PostSection(
     posts: List<Painter>,
-    modifier: Modifier = Modifier
-){
+    modifier: Modifier = Modifier,
+    navController: NavController
+) {
     LazyVerticalGrid(
         cells = GridCells.Fixed(3),
         modifier = modifier
             .scale(1.01f)
 
-    ){
-        items(posts.size){
-            Image(
-                painter = posts[it],
-                contentDescription = null,
-                contentScale = ContentScale.Crop,
-                modifier = Modifier
-                    .aspectRatio(1f)
-                    .border(
-                        width = 1.dp,
-                        color = Color.White
-                    )
-            )
+    ) {
+        items(posts.size) {
+            Box(modifier = Modifier.clickable {
+                navController.navigate(POST_VIEW_ROUTE)
+            }) {
+                Image(
+                    painter = posts[it],
+                    contentDescription = null,
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier
+                        .aspectRatio(1f)
+                        .border(
+                            width = 1.dp,
+                            color = Color.White
+                        )
+                )
+            }
         }
     }
 }
